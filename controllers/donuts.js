@@ -1,6 +1,6 @@
 const Donut = require("../models/donut");
 
-const create = (req, res) => {
+const create = async (req, res) => {
   let donut = new Donut();
   donut.name = req.body.name;
   donut.email = req.body.email;
@@ -16,58 +16,58 @@ const create = (req, res) => {
   });
 };
 
-const deleteDonutById = (req, res) => {
+const deleteDonutById = async (req, res) => {
   const id = req.params.id;
-  res.json({
-    status: "success",
-    message: `Delete donut with = ${id}`,
-    data: {
-      id: id,
-    },
-  });
-};
-
-const updateDonutById = (req, res) => {
-  const id = req.params.id;
-  const name = req.body.name;
-  res.json({
-    status: "success",
-    message: `Update donut with = ${id}`,
-    data: {
-      id: id,
-      name: name,
-    },
-  });
-};
-
-const getDonutById = (req, res) => {
-  const id = req.params.id;
-  res.json({
-    status: "success",
-    message: `Get donut with = ${id}`,
-    data: {
-      id: id,
-      name: "Chocolate",
-    },
-  });
-};
-
-const getAllDonuts = (req, res) => {
-  res.json({
-    status: "success",
-    message: "Get all donuts",
-    data: {
-      donuts: [
-        {
-          id: 1,
-          name: "Chocolate",
+  Donut.findByIdAndRemove(id, (err, doc) => {
+    if (!err) {
+      res.json({
+        status: "success",
+        data: {
+          donut: doc,
         },
-        {
-          id: 2,
-          name: "Vanilla",
+      });
+    }
+  });
+};
+
+const updateDonutById = async (req, res) => {
+  const id = req.params.id;
+  Donut.findByIdAndUpdate(id, req.body, { new: true }, (err, doc) => {
+    if (!err) {
+      res.json({
+        status: "success",
+        data: {
+          donut: doc,
         },
-      ],
-    },
+      });
+    }
+  });
+};
+
+const getDonutById = async (req, res) => {
+  const id = req.params.id;
+  Donut.findById(id, (err, doc) => {
+    if (!err) {
+      res.json({
+        status: "success",
+        data: {
+          donut: doc,
+        },
+      });
+    }
+  });
+};
+
+const getAllDonuts = async (req, res) => {
+  Donut.find((err, docs) => {
+    if (!err) {
+      res.json({
+        status: "success",
+        data: {
+          donuts: docs,
+        },
+      });
+    }
   });
 };
 
