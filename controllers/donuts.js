@@ -1,15 +1,18 @@
+const Donut = require("../models/donut");
+
 const create = (req, res) => {
-  const id = req.body.id;
-  const email = req.body.email;
-  const name = req.body.name;
-  res.json({
-    status: "success",
-    message: `Create donut with = ${id}`,
-    data: {
-      id: id,
-      email: email,
-      name: name,
-    },
+  let donut = new Donut();
+  donut.name = req.body.name;
+  donut.email = req.body.email;
+  donut.save((err, doc) => {
+    if (!err) {
+      res.json({
+        status: "success",
+        data: {
+          donut: doc,
+        },
+      });
+    }
   });
 };
 

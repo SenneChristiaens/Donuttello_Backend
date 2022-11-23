@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 mongoose.connect(
-  "mongodb+srv://Senne:cfYv2FQsV4q7Ov7v@donuttello.jpv1i8d.mongodb.net/?retryWrites=true&w=majority"
+  "mongodb+srv://Senne:cfYv2FQsV4q7Ov7v@donuttello.jpv1i8d.mongodb.net/donuttello?retryWrites=true&w=majority"
 );
 
 const donutsRouter = require("./routes/donuts");
