@@ -50,23 +50,23 @@ const getDonutById = (req, res) => {
 };
 
 const getAllDonuts = (req, res) => {
-    res.json({
-      status: "success",
-      message: "Get all donuts",
-      data: {
-        donuts: [
-          {
-            id: 1,
-            name: "Chocolate",
-          },
-          {
-            id: 2,
-            name: "Vanilla",
-          },
-        ],
-      },
-    });
-  };
+  res.json({
+    status: "success",
+    message: "Get all donuts",
+    data: {
+      donuts: [
+        {
+          id: 1,
+          name: "Chocolate",
+        },
+        {
+          id: 2,
+          name: "Vanilla",
+        },
+      ],
+    },
+  });
+};
 
 module.exports = {
   create,
