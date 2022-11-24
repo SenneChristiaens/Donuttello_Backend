@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const donutSchema = new Schema({
-    name: String,
-    email: String,
-    votes: Number,
-    date:  { type: Date, default: Date.now }
+  name: String,
+  email: String,
+  votes: Number,
+  date: { type: Date, default: Date.now },
 });
 
 const Donut = mongoose.model("Donut", donutSchema);
