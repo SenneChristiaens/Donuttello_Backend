@@ -1,4 +1,5 @@
 const Donut = require("../models/donut");
+const jwt = require("jsonwebtoken");
 
 const create = async (req, res) => {
   let donut = new Donut();
