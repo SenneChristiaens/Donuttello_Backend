@@ -10,7 +10,7 @@ mongoose.connect(
 );
 
 const donutsRouter = require("./routes/donuts");
-const adminsController = require("./routes/admins");
+const adminsRouter = require("./routes/admins");
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.use(
 );
 
 app.use("/api/v1/donuts", donutsRouter);
-app.use("/api/v1/admins", adminsController);
+app.use("/api/v1/admins", adminsRouter);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
