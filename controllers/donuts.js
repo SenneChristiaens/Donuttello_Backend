@@ -5,7 +5,6 @@ const create = async (req, res) => {
   let donut = new Donut();
   donut.name = req.body.name;
   donut.email = req.body.email;
-  donut.votes = req.body.votes;
   donut.save((err, doc) => {
     if (!err) {
       res.json({
