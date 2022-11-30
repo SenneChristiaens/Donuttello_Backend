@@ -40,6 +40,34 @@ const login = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  const body = req.body;
+  const admin = await Admin.findOne({ token: body.token });
+  if (admin) {
+    const validatePassword = await bcrypt.compare(
+      body.password,
+      admin.password
+    );
+
+    if (validatePassword) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(body.newPassword, salt);
+      await Admin.updateOne(
+        { token: body.token },
+        { $set: { password: hashedPassword } }
+      );
+      res.json({
+        status: "success",
+        message: "Password changed successfully",
+      });
+    } else {
+      res.json({
+        status: "error",
+        message: "Password is incorrect",
+      });
+    }
+  }
+};
 //POST
 // const create =  async (req, res) => {
 //   let admin = new Admin();
@@ -85,5 +113,9 @@ const login = async (req, res) => {
 //   });
 // };
 
-module.exports.login = login;
+module.exports = {
+  login,
+  changePassword,
+};
+
 //module.exports.create = create;
