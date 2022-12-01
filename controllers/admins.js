@@ -27,16 +27,11 @@ const login = async (req, res) => {
         nickname: admin.nickname,
       });
     } else {
-      res.json({
+      res.status(404).json({
         status: "error",
-        message: "Password is incorrect",
+        message: "Oud wachtwoord is niet correct!",
       });
     }
-  } else {
-    res.json({
-      status: "error",
-      message: "No admin found with this email",
-    });
   }
 };
 
@@ -110,7 +105,7 @@ const changePassword = async (req, res) => {
                 // return a success message
                 res.status(200).json({
                   status: "success",
-                  message: "Password changed successfully",
+                  message: "Je wachtwoord is gewijzigd!",
                   data: admin,
                 });
               }
