@@ -1,7 +1,7 @@
 const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secret = `$N7Xc#u@*2DC7sy$34%dVz#5^!3E&u`;
+const secret = `$N7Xc#u@*2DC7sy$34%dVz#5^!3E&u`; //niet goed
 
 const login = async (req, res) => {
   const body = req.body;
@@ -40,67 +40,88 @@ const login = async (req, res) => {
   }
 };
 
-const getUserByToken = async (req, res) => {
-  const token = req.headers["x-access-token"];
+const changePassword = async (req, res) => {
+  // split the token from the header
+  const token = req.headers.authorization.split(" ")[1];
   if (!token) {
-    res.json({
-      status: "error",
-      message: "No token provided",
-    });
-  } else {
-    try {
-      const decoded = jwt.verify(token, secret);
-      const admin = await Admin.findById(decoded.uid);
-      if (admin) {
-        res.json({
-          status: "success",
-          data: {
-            admin: admin,
-          },
-        });
-      } else {
-        res.json({
-          status: "error",
-          message: "No admin found",
+    return res.status(401).json({ status: "failed", message: "Unauthorized" });
+  }
+
+  // Verify the token with built in jwt.verify() method
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      res.status(401).json({
+        status: "failed",
+        message: "You are not authorized to perform this action.",
+      });
+    }
+    const body = req.body;
+    // find the admin with the id from the token
+    Admin.findById(decoded.uid, (err, admin) => {
+      if (err) {
+        res.status(500).json({
+          status: "failed",
+          message: "Something went wrong. Please try again later.",
         });
       }
-    } catch (err) {
-      res.json({
-        status: "error",
-        message: err.message,
+      // is there an admin with this email?
+      if (!admin) {
+        res.status(404).json({
+          status: "failed",
+          message: "No admin found with this email",
+        });
+      }
+
+      // compare the password from the request with the password from the database
+      bcrypt.compare(body.oldPassword, admin.password, (err, result) => {
+        if (err) {
+          res.status(500).json({
+            status: "failed",
+            message: "Something went wrong. Please try again later.",
+          });
+        }
+        // if the password is correct, hash the new password
+        if (result) {
+          bcrypt.hash(body.newPassword, 10, (err, hash) => {
+            if (err) {
+              res.status(500).json({
+                status: "failed",
+                message: "Something went wrong. Please try again later.",
+              });
+            }
+            // if the old password is incorrect, return an error
+            if (hash == admin.password) {
+              res.status(400).json({
+                status: "failed",
+                message: "New password cannot be same as old password",
+              });
+            }
+            // update the admin with the new password
+            Admin.findByIdAndUpdate(
+              decoded.uid,
+              { password: hash },
+              (err, admin) => {
+                if (err) {
+                  res.status(500).json({
+                    status: "failed",
+                    message: "Something went wrong. Please try again later.",
+                  });
+                }
+                // return a success message
+                res.status(200).json({
+                  status: "success",
+                  message: "Password changed successfully",
+                  data: admin,
+                });
+              }
+            );
+          });
+        }
       });
-    }
-  }
+    });
+  });
 };
 
-const changePassword = async (req, res) => {
-  const body = req.body;
-  const admin = await Admin.findOne({ token: body.token });
-  if (admin) {
-    const validatePassword = await bcrypt.compare(
-      body.password,
-      admin.password
-    );
-
-    if (validatePassword) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(body.newPassword, salt);
-      await Admin.updateOne(
-        { token: body.token },
-        { $set: { password: hashedPassword } }
-      );
-      res.json({
-        status: "success",
-        message: "Password changed successfully",
-      });
-    } else {
-      res.json({
-        status: "error",
-        message: "Password is incorrect",
-      });
-    }
-  }
-};
 //POST
 // const create =  async (req, res) => {
 //   let admin = new Admin();
@@ -149,7 +170,6 @@ const changePassword = async (req, res) => {
 module.exports = {
   login,
   changePassword,
-  getUserByToken,
 };
 
 //module.exports.create = create;
