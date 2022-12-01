@@ -40,6 +40,39 @@ const login = async (req, res) => {
   }
 };
 
+const getUserByToken = async (req, res) => {
+  const token = req.headers["x-access-token"];
+  if (!token) {
+    res.json({
+      status: "error",
+      message: "No token provided",
+    });
+  } else {
+    try {
+      const decoded = jwt.verify(token, secret);
+      const admin = await Admin.findById(decoded.uid);
+      if (admin) {
+        res.json({
+          status: "success",
+          data: {
+            admin: admin,
+          },
+        });
+      } else {
+        res.json({
+          status: "error",
+          message: "No admin found",
+        });
+      }
+    } catch (err) {
+      res.json({
+        status: "error",
+        message: err.message,
+      });
+    }
+  }
+};
+
 const changePassword = async (req, res) => {
   const body = req.body;
   const admin = await Admin.findOne({ token: body.token });
@@ -116,6 +149,7 @@ const changePassword = async (req, res) => {
 module.exports = {
   login,
   changePassword,
+  getUserByToken,
 };
 
 //module.exports.create = create;
