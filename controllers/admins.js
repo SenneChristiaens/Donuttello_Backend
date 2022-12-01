@@ -99,8 +99,7 @@ const changePassword = async (req, res) => {
                 if (err) {
                   res.status(404).json({
                     status: "failed",
-                    message: "Je oud wachtwoord is niet correct",
-                    data: err,
+                    message: "Something went wrong. Please try again later.",
                   });
                 }
                 // return a success message
