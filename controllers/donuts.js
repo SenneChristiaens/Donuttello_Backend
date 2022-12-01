@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const create = async (req, res) => {
   let donut = new Donut();
   donut.name = req.body.name;
+  donut.company = req.body.company;
   donut.email = req.body.email;
+  donut.url = req.body.url;
   donut.save((err, doc) => {
     if (!err) {
       res.json({
