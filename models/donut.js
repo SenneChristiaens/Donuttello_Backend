@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const donutSchema = new Schema({
   name: String,
+  company: String,
   email: String,
   date: { type: Date, default: Date.now },
+  url: String,
 });
 
 const Donut = mongoose.model("Donut", donutSchema);
