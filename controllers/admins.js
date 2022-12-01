@@ -44,13 +44,13 @@ const changePassword = async (req, res) => {
   // split the token from the header
   const token = req.headers.authorization.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ status: "failed", message: "Unauthorized" });
+    return res.status(404).json({ status: "failed", message: "Unauthorized" });
   }
 
   // Verify the token with built in jwt.verify() method
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
-      res.status(401).json({
+      res.status(404).json({
         status: "failed",
         message: "You are not authorized to perform this action.",
       });
@@ -59,7 +59,7 @@ const changePassword = async (req, res) => {
     // find the admin with the id from the token
     Admin.findById(decoded.uid, (err, admin) => {
       if (err) {
-        res.status(500).json({
+        res.status(404).json({
           status: "failed",
           message: "Something went wrong. Please try again later.",
         });
@@ -75,7 +75,7 @@ const changePassword = async (req, res) => {
       // compare the password from the request with the password from the database
       bcrypt.compare(body.oldPassword, admin.password, (err, result) => {
         if (err) {
-          res.status(500).json({
+          res.status(404).json({
             status: "failed",
             message: "Something went wrong. Please try again later.",
           });
@@ -84,14 +84,14 @@ const changePassword = async (req, res) => {
         if (result) {
           bcrypt.hash(body.newPassword, 10, (err, hash) => {
             if (err) {
-              res.status(500).json({
+              res.status(404).json({
                 status: "failed",
                 message: "Something went wrong. Please try again later.",
               });
             }
             // if the old password is incorrect, return an error
             if (hash == admin.password) {
-              res.status(400).json({
+              res.status(404).json({
                 status: "failed",
                 message: "New password cannot be same as old password",
               });
@@ -102,7 +102,7 @@ const changePassword = async (req, res) => {
               { password: hash },
               (err, admin) => {
                 if (err) {
-                  res.status(500).json({
+                  res.status(404).json({
                     status: "failed",
                     message: "Something went wrong. Please try again later.",
                   });
