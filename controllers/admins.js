@@ -27,9 +27,9 @@ const login = async (req, res) => {
         nickname: admin.nickname,
       });
     } else {
-      res.status(404).json({
+      res.json({
         status: "error",
-        message: "Oud wachtwoord is niet correct!",
+        message: "Oud wachtwoord is niet correct",
       });
     }
   }
@@ -99,7 +99,8 @@ const changePassword = async (req, res) => {
                 if (err) {
                   res.status(404).json({
                     status: "failed",
-                    message: "Something went wrong. Please try again later.",
+                    message: "Je oud wachtwoord is niet correct",
+                    data: err,
                   });
                 }
                 // return a success message
