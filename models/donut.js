@@ -6,7 +6,7 @@ const donutSchema = new Schema({
   email: String,
   date: { type: Date, default: Date.now },
   url: String,
-  status: { type: String, default: "In behandeling" },
+  status: { type: String, default: "Bestelling geplaatst" },
 });
 
 const Donut = mongoose.model("Donut", donutSchema);
