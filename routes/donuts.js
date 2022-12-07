@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const donutsController = require("../controllers/donuts");
+const authenticate = require("../middleware/authenticate");
 
-router.get("/", donutsController.getAllDonuts);
+router.get("/", authenticate, donutsController.getAllDonuts);
 router.get("/:id", donutsController.getDonutById);
 router.post("/create", donutsController.create);
 router.put("/:id", donutsController.updateDonutById);
