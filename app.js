@@ -5,6 +5,8 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+mongoose.set('strictQuery', false);
+
 mongoose.connect(
   "mongodb+srv://Senne:cfYv2FQsV4q7Ov7v@donuttello.jpv1i8d.mongodb.net/donuttello?retryWrites=true&w=majority"
 );
