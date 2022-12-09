@@ -24,7 +24,7 @@ const login = async (req, res) => {
       res.json({
         status: "success",
         token: token,
-        username: admin.username,
+        nickname: admin.nickname,
       });
     } else {
       res.json({
