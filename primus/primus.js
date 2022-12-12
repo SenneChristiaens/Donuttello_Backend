@@ -5,7 +5,6 @@ let go = (server) => {
   //primus.save(__dirname +'/primuslib.js')
 
   primus.on("connection", (spark) => {
-    console.log("yoepie");
     spark.on("data", (data) => {
         console.log(data);
         primus.write(data);
