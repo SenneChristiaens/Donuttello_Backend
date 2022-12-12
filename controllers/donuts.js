@@ -5,8 +5,15 @@ const create = async (req, res) => {
   let donut = new Donut();
   donut.name = req.body.name;
   donut.company = req.body.company;
+  donut.companyLogo = req.body.companyLogo;
   donut.email = req.body.email;
-  donut.url = req.body.url;
+  donut.snapshot = req.body.snapshot;
+  donut.quantity = req.body.quantity;
+  donut.comment = req.body.comment;
+  donut.dough = req.body.dough;
+  donut.glaze = req.body.glaze;
+  donut.topping = req.body.topping;
+  donut.toppingColor = req.body.toppingColor;
   donut.save((err, doc) => {
     if (!err) {
       res.json({
