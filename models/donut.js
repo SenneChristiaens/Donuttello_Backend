@@ -10,6 +10,7 @@ const donutSchema = new Schema({
   comment: String,
   dough: String,
   glaze: String,
+  glazeColor: String,
   topping: String,
   toppingColor: String,
   date: { type: Date, default: Date.now },
