@@ -8,8 +8,6 @@ const donutSchema = new Schema({
   snapshot: String,
   quantity: Number,
   comment: String,
-  dough: String,
-  glaze: String,
   glazeColor: String,
   topping: String,
   toppingColor: String,

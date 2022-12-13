@@ -10,8 +10,6 @@ const create = async (req, res) => {
   donut.snapshot = req.body.snapshot;
   donut.quantity = req.body.quantity;
   donut.comment = req.body.comment;
-  donut.dough = req.body.dough;
-  donut.glaze = req.body.glaze;
   donut.glazeColor = req.body.glazeColor;
   donut.topping = req.body.topping;
   donut.toppingColor = req.body.toppingColor;
