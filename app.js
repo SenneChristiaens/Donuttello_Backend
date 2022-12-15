@@ -21,16 +21,17 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(
   cors({
-    origin: true,
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 
 app.use("/api/v1/donuts", donutsRouter);
 app.use("/api/v1/admins", adminsRouter);

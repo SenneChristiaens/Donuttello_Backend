@@ -6,7 +6,7 @@ const authenticate = require("../middleware/authenticate");
 router.get("/", authenticate, donutsController.getAllDonuts);
 router.get("/:id", donutsController.getDonutById);
 router.post("/create", donutsController.create);
-router.put("/:id", authenticate, donutsController.updateDonutById);
+router.put("/:id", donutsController.updateDonutById);
 router.delete("/:id", authenticate, donutsController.deleteDonutById);
 
 module.exports = router;
