@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const donutSchema = new Schema({
   donutName: String,
   company: String,
-  companyLogo: String,
+  companyUrl: String,
   email: String,
   snapshot: String,
   quantity: Number,

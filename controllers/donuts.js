@@ -5,7 +5,7 @@ const create = async (req, res) => {
   let donut = new Donut();
   donut.donutName = req.body.donutName;
   donut.company = req.body.company;
-  donut.companyLogo = req.body.companyLogo;
+  donut.companyUrl = req.body.companyUrl;
   donut.email = req.body.email;
   donut.snapshot = req.body.snapshot;
   donut.quantity = req.body.quantity;
